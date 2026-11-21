@@ -1,0 +1,515 @@
+:root {
+    --bg: #0a0c11;
+    --surface: #141821;
+    --surface-2: #1b2130;
+    --border: #2a3142;
+    --text: #e8e4d8;
+    --text-muted: #8a91a6;
+    --gold: #c9a227;
+    --gold-bright: #ecc95b;
+    --gold-glow: rgba(201, 162, 39, 0.35);
+    --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    background-color: #0a0c11;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--text);
+    background-color: #0a0c11;
+    background-image:
+        radial-gradient(ellipse at 15% -10%, rgba(80, 60, 140, 0.18), transparent 50%),
+        radial-gradient(ellipse at 90% 0%, rgba(160, 40, 40, 0.12), transparent 45%);
+    background-attachment: fixed;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.04em;
+}
+
+/* ---------- Layout ---------- */
+.page-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-header h1,
+.page-content > h1 {
+    margin: 0 0 24px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold-bright);
+    text-shadow: 0 0 24px var(--gold-glow);
+}
+
+.page-header h1 { margin: 0; }
+
+.count-pill {
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+
+.empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+}
+
+/* ---------- Navigation ---------- */
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 32px;
+    background-color: #0a0c11;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Mana stripe: W U B R G */
+.top-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: linear-gradient(90deg,
+        #f4f1d0 0%, #f4f1d0 20%,
+        #0e68ab 20%, #0e68ab 40%,
+        #4a3f52 40%, #4a3f52 60%,
+        #d3202a 60%, #d3202a 80%,
+        #00733e 80%, #00733e 100%);
+}
+
+.brand {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--gold-bright);
+}
+
+.nav-links { display: flex; gap: 8px; }
+
+.nav-btn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.nav-btn:hover {
+    color: var(--gold-bright);
+    background: var(--surface);
+    border-color: var(--gold);
+}
+
+/* ---------- Import form ---------- */
+.import-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 520px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.import-form label {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--gold-bright);
+}
+
+/* Deck name field */
+.import-form input[type="text"] {
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.import-form input[type="text"]::placeholder {
+    color: var(--text-muted);
+}
+
+.import-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+/* File field */
+.import-form input[type="file"] {
+    padding: 14px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.import-form input[type="file"]:hover { border-color: var(--gold); }
+
+.import-form input[type="file"]::file-selector-button {
+    margin-right: 14px;
+    padding: 6px 14px;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.import-form button {
+    padding: 11px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #14110a;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.import-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px var(--gold-glow);
+}
+
+.message {
+    max-width: 520px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+}
+
+.message-error { border-left-color: #d3202a; }
+
+/* ---------- Cards grid ---------- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 150px));
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 48px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55), 0 0 14px var(--gold-glow);
+}
+
+.card-image {
+    position: relative;
+    aspect-ratio: 488 / 680;
+    background: var(--surface-2);
+}
+
+.card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.card-quantity {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 2;
+    min-width: 28px;
+    padding: 2px 8px;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #14110a;
+    background-color: #ecc95b;
+    opacity: 1;
+    border: 1px solid #c9a227;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.card-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    padding: 8px 6px;
+    min-height: 3em;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--text);
+    background: var(--surface-2);
+    border-top: 1px solid var(--border);
+}
+
+/* ---------- Mana symbols ---------- */
+.mana-symbol {
+    display: block;
+    flex: none;
+    width: 18px;
+    height: 18px;
+    max-width: none;
+    border-radius: 50%;
+    box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.85);
+}
+
+/* Cost under each card image */
+.card-cost {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    min-height: 32px;
+    padding: 8px 6px 0;
+    background: var(--surface-2);
+}
+
+.cost-sep {
+    padding: 0 2px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.card-cost + .card-name {
+    border-top: none;
+    min-height: 2.6em;
+    padding-top: 4px;
+}
+
+/* Totals row above the grid */
+.mana-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.mana-total {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px 8px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+
+.mana-total .mana-symbol {
+    width: 28px;
+    height: 28px;
+}
+
+.mana-total-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.mana-total-count {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gold-bright);
+}
+
+.mana-unknown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-weight: 700;
+    color: #8a91a6;
+    background: #2a3142;
+    border-radius: 50%;
+}
+
+/* ---------- Decks ---------- */
+.deck-list {
+    list-style: none;
+    margin: 0 0 40px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 700px;
+}
+
+.deck-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.deck-item:hover {
+    transform: translateX(4px);
+    border-color: var(--gold);
+    box-shadow: 0 0 16px var(--gold-glow);
+}
+
+.deck-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+}
+
+/* ---------- Format picker (radio buttons) ---------- */
+.format-picker {
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.format-picker legend {
+    margin-bottom: 10px;
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--gold-bright);
+}
+
+.import-form .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+/* hide the native control, keep it focusable for keyboards */
+.radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-dot {
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.radio-dot::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: var(--gold-bright);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.15s;
+}
+
+.radio-option:hover .radio-dot {
+    border-color: var(--gold);
+}
+
+.radio-option input:checked + .radio-dot {
+    border-color: var(--gold);
+}
+
+.radio-option input:checked + .radio-dot::after {
+    transform: scale(1);
+}
+
+.radio-option input:focus-visible + .radio-dot {
+    box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.radio-label {
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .top-bar { flex-direction: column; padding: 12px 16px; }
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav th:fragment="navbar" class="top-bar">
+    <a th:href="@{/}" class="brand">Card Vault</a>
+    <div class="nav-links">
+        <a th:href="@{/}" class="nav-btn">Home</a>
+        <a th:href="@{/decks}" class="nav-btn">Decks</a>
+        <a th:href="@{/cards/owned}" class="nav-btn">Owned Cards</a>
+    </div>
+</nav>
+
+</body>
+</html>

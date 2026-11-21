@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Decks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{navigation :: navbar}"></div>
+
+<main class="page-content">
+    <header class="page-header">
+        <h1>Decks</h1>
+        <span class="count-pill" th:if="${!#lists.isEmpty(decks)}"
+              th:text="${#lists.size(decks)} + ' decks'">0 decks</span>
+    </header>
+
+    <ul class="deck-list" th:if="${!#lists.isEmpty(decks)}">
+        <li class="deck-item" th:each="deck : ${decks}">
+            <span class="deck-name" th:text="${deck.name}">Deck name</span>
+            <span>
+                <span class="count-pill" th:text="${deck.format.label}">Standard</span>
+                <span class="count-pill" th:text="${deck.mainboardCount} + ' cards'">60 cards</span>
+                <span class="count-pill" th:if="${deck.sideboardCount > 0}"
+                      th:text="${deck.sideboardCount} + ' sideboard'">15 sideboard</span>
+            </span>
+        </li>
+    </ul>
+
+    <p class="empty-state" th:if="${#lists.isEmpty(decks)}">
+        You haven't added any decks yet. Add one below.
+    </p>
+
+    <section class="import-section">
+        <form th:action="@{/decks/import}" method="post" enctype="multipart/form-data" class="import-form">
+            <label for="name">Deck name</label>
+            <input type="text" id="name" name="name" maxlength="100" placeholder="e.g. Mono Red Aggro" required>
+
+            <fieldset class="format-picker">
+                <legend>Format</legend>
+
+                <label class="radio-option" th:each="f, stat : ${formats}">
+                    <input type="radio" name="format"
+                           th:value="${f}"
+                           th:checked="${stat.first}"
+                           required>
+                    <span class="radio-dot"></span>
+                    <span class="radio-label" th:text="${f.label}">Standard</span>
+                </label>
+            </fieldset>
+
+            <label for="file">Import TXT file</label>
+            <input type="file" id="file" name="file" accept=".txt" required>
+
+            <button type="submit">Add Deck</button>
+        </form>
+
+        <p th:if="${message}" th:text="${message}" class="message"></p>
+        <p th:if="${error}" th:text="${error}" class="message message-error"></p>
+    </section>
+</main>
+
+</body>
+</html>

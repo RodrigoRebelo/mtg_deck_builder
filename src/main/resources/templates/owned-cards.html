@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Owned Cards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{navigation :: navbar}"></div>
+
+<main class="page-content">
+  <header class="page-header">
+    <h1>Owned Cards</h1>
+    <span class="count-pill" th:if="${!#lists.isEmpty(cards)}"
+          th:text="${#lists.size(cards)} + ' unique'">0 unique</span>
+    <span class="count-pill" th:if="${!#lists.isEmpty(cards)}"
+          th:text="${#aggregates.sum(cards.![numberOfCards])} + ' total'">0 total</span>
+  </header>
+
+  <section class="mana-totals" th:if="${!#lists.isEmpty(manaTotals)}">
+    <div class="mana-total" th:each="t : ${manaTotals}">
+      <img th:if="${t.key != 'UNKNOWN'}" class="mana-symbol" width="28" height="28"
+           th:src="|https://svgs.scryfall.io/card-symbols/${t.key}.svg|"
+           th:alt="${t.label}">
+      <span th:if="${t.key == 'UNKNOWN'}" class="mana-unknown">?</span>
+      <span class="mana-total-label" th:text="${t.label}">Red</span>
+      <span class="mana-total-count" th:text="${t.total}">0</span>
+    </div>
+  </section>
+
+  <section class="cards-grid" th:if="${!#lists.isEmpty(cards)}">
+    <article class="card"
+             th:each="card : ${cards}"
+             th:with="detail=${details?.get(card.name)}">
+      <div class="card-image">
+        <img th:if="${detail != null and detail.imageUrl() != null}"
+             th:src="${detail.imageUrl()}"
+             th:alt="${card.name}"
+             loading="lazy">
+        <div class="card-placeholder"
+             th:unless="${detail != null and detail.imageUrl() != null}">No image</div>
+        <span class="card-quantity" th:text="'x' + ${card.numberOfCards}">x1</span>
+      </div>
+
+      <div class="card-cost">
+        <th:block th:if="${detail != null}" th:each="s : ${detail.manaSymbols()}">
+          <span th:if="${s.type == 'SEP'}" class="cost-sep">//</span>
+          <img th:unless="${s.type == 'SEP'}" class="mana-symbol" width="18" height="18"
+               th:src="${s.svgUrl()}" th:alt="${s.text}" th:title="${s.text}">
+        </th:block>
+      </div>
+
+      <h2 class="card-name" th:text="${card.name}">Card name</h2>
+    </article>
+  </section>
+
+  <p class="empty-state" th:if="${#lists.isEmpty(cards)}">You don't own any cards yet. Import a CSV below to get started.</p>
+
+  <section class="import-section">
+    <form th:action="@{/cards/owned/import}" method="post" enctype="multipart/form-data" class="import-form">
+      <label for="file">Import CSV file</label>
+      <input type="file" id="file" name="file" accept=".csv" required>
+      <button type="submit">Import</button>
+    </form>
+    <p th:if="${message}" th:text="${message}" class="message"></p>
+  </section>
+</main>
+
+</body>
+</html>
